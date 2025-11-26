@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FLAMES Matcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header>
+        <h1>FLAMES</h1>
+        <p class="tagline">
+          Classic name game that predicts your relationship vibe.
+        </p>
+      </header>
+
+      <section class="card">
+        <form id="flames-form">
+          <label class="field">
+            <span>First Name</span>
+            <input
+              type="text"
+              id="name-one"
+              name="nameOne"
+              placeholder="e.g. Alex"
+              required
+            />
+          </label>
+
+          <label class="field">
+            <span>Second Name</span>
+            <input
+              type="text"
+              id="name-two"
+              name="nameTwo"
+              placeholder="e.g. Jamie"
+              required
+            />
+          </label>
+
+          <button type="submit">Reveal</button>
+          <button type="button" id="reset-btn" class="ghost">Reset</button>
+        </form>
+
+        <div id="result" class="result" aria-live="polite">
+          Enter two names to see their FLAMES story.
+        </div>
+
+        <details class="rules">
+          <summary>How it works</summary>
+          <ol>
+            <li>Remove all matching letters from both names.</li>
+            <li>Count the remaining letters.</li>
+            <li>Cycle through FLAMES until you land on the result.</li>
+          </ol>
+        </details>
+      </section>
+
+      <footer>
+        <small>Built with vanilla HTML, CSS, and JS.</small>
+      </footer>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
+
