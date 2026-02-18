@@ -1,491 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Arjhun O | Portfolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="portfolio.png" >
+    <title>FLAMES Matcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header>
+        <h1>FLAMES</h1>
+        <p class="tagline">
+          Classic name game that predicts your relationship vibe.
+        </p>
+      </header>
 
-    <style>
-      #scrollToTopBtn {
-    display: none; /* Hidden by default */
-    position: fixed; /* Fixed position */
-    bottom: 30px; /* Space from bottom */
-    right: 30px; /* Space from right */
-    z-index: 99; /* High z-index to be on top */
-    border: 2px solid var(--accent-color);
-    background-color: var(--card-bg); /* Match card background */
-    color: var(--accent-color);
-    width: 50px; /* Circular button size */
-    height: 50px;
-    font-size: 1.5rem;
-    padding: 0; /* Remove default padding */
-    display: flex; /* Use flexbox for centering icon */
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 15px var(--shadow-medium);
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
-}
+      <section class="card">
+        <form id="flames-form">
+          <label class="field">
+            <span>First Name</span>
+            <input
+              type="text"
+              id="name-one"
+              name="nameOne"
+              placeholder="e.g. Alex"
+              required
+            />
+          </label>
 
-/* #scrollToTopBtn:hover {
-    background-color: var(--accent-color);
-    color: var(--primary-bg);
-    transform: translateY(-3px);
-} */
+          <label class="field">
+            <span>Second Name</span>
+            <input
+              type="text"
+              id="name-two"
+              name="nameTwo"
+              placeholder="e.g. Jamie"
+              required
+            />
+          </label>
 
+          <button type="submit">Reveal</button>
+          <button type="button" id="reset-btn" class="ghost">Reset</button>
+        </form>
 
-        :root {
-            --primary-bg: #1A1A1A; /* Slightly lighter dark background */
-            --secondary-bg: #222222; /* For alternating sections */
-            --text-color: #E0E0E0; /* Lighter text for contrast */
-            --accent-color: #00BCD4; /* A vibrant teal/cyan like Coachify's accent */
-            --card-bg: #2A2A2A; /* Card background */
-            --shadow-light: rgba(0, 0, 0, 0.3);
-            --shadow-medium: rgba(0, 0, 0, 0.6);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif; /* Modern sans-serif font */
-            scroll-behavior: smooth;
-            background-color: var(--primary-bg);
-            color: var(--text-color);
-            line-height: 1.7; /* Improved readability */
-        }
-
-        section {
-            padding: 100px 0; /* More generous padding */
-            overflow: hidden; /* For AOS animations */
-        }
-
-        .navbar {
-            background: var(--primary-bg);
-            box-shadow: 0 4px 15px var(--shadow-medium); /* Deeper shadow */
-            padding: 1rem 0;
-            transition: background-color 0.3s ease;
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.7rem;
-            color: var(--accent-color) !important; /* Brand name in accent color */
-            letter-spacing: -0.5px;
-        }
-
-        .nav-link {
-            color: var(--text-color) !important;
-            font-weight: 500;
-            margin: 0 15px;
-            position: relative;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--accent-color);
-            transition: width 0.3s ease;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .nav-link:hover {
-            color: var(--accent-color) !important; /* Accent color on hover */
-        }
-
-        .section-title {
-            font-weight: 700;
-            margin-bottom: 60px; /* More space below title */
-            color: var(--text-color);
-            font-size: 2.8rem; /* Larger section titles */
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 4px;
-            background-color: var(--accent-color);
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        /* Hero section specific styling */
-        #about {
-            min-height: 100vh; /* Full viewport height for hero */
-            display: flex;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, var(--primary-bg), #0f1c2b); /* Subtle gradient */
-            padding-top: 0; /* Remove top padding for min-height */
-            padding-bottom: 0;
-        }
-
-        #about h2 {
-            font-size: 4rem; /* Even larger for main title */
-            line-height: 1.2;
-            margin-bottom: 20px;
-            color: var(--accent-color); /* Highlight name */
-        }
-
-        #about p {
-            font-size: 1.3rem; /* Larger text for intro */
-            max-width: 800px;
-            margin: 0 auto 40px auto;
-            color: var(--text-color);
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
-            border-radius: 12px; /* More rounded corners */
-            box-shadow: 0 8px 25px var(--shadow-medium); /* Softer, deeper shadow */
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            overflow: hidden; /* Ensures content respects border-radius */
-        }
-
-        .card:hover {
-            transform: translateY(-8px); /* More pronounced lift */
-            box-shadow: 0 12px 35px var(--shadow-medium);
-        }
-
-        .card-title {
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 1.6rem;
-        }
-
-        .card-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .btn-outline-primary {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            padding: 10px 25px;
-            border-radius: 8px; /* Rounded buttons */
-            font-weight: 600;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--accent-color);
-            color: var(--primary-bg); /* Dark text on hover */
-            transform: translateY(-2px); /* Subtle button lift on hover */
-        }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        a:hover {
-            color: #66E0FF; /* Lighter shade on hover */
-            text-decoration: underline; /* Add underline on hover for links */
-        }
-
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        ul li {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        ul li::before {
-            content: "• "; /* Changed bullet point for a softer look */
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            margin-right: 8px;
-        }
-
-        /* Alternating section backgrounds */
-        #skills, #education, #contact {
-            background-color: var(--secondary-bg);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 2.2rem;
-            }
-            #about h2 {
-                font-size: 3rem;
-            }
-            #about p {
-                font-size: 1.1rem;
-            }
-            section {
-                padding: 70px 0;
-            }
-            .card {
-                margin-bottom: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-                    ARJHUN O
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-                <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
-                <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            </ul>
+        <div id="result" class="result" aria-live="polite">
+          Enter two names to see their FLAMES story.
         </div>
-    </div>
-</nav>
 
-<section id="about">
-    <div class="container" data-aos="fade-up" data-aos-duration="1200">
-        <h2 class="text-center">Hi, I'm Arjhun O</h2>
-        <p class="text-center">A passionate Full Stack Developer from Tamil Nadu, India. I specialize in building modern web applications with PHP (CodeIgniter, Laravel), Bootstrap, and Java. I'm currently a 3rd-year B.E. student at PSNACET (2023–2027).</p>
-        <div class="text-center">
-             <a href="#projects" class="btn btn-outline-primary btn-lg mt-4">View My Work</a>
-        </div>
-    </div>
-</section>
+        <details class="rules">
+          <summary>How it works</summary>
+          <ol>
+            <li>Remove all matching letters from both names.</li>
+            <li>Count the remaining letters.</li>
+            <li>Cycle through FLAMES until you land on the result.</li>
+          </ol>
+        </details>
+      </section>
 
-<section id="skills">
-    <div class="container" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="text-center section-title">Skills</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <ul>
-                    <li>PHP (Core, CI4, Laravel)</li>
-                    <li>HTML, CSS, JavaScript, Bootstrap</li>
-                    <li>Java (CORE,PROBLEM SOLVING ,JDBC)</li>
-                </ul>
-            </div>
-            <div class="col-md-5">
-                <ul>
-                    <li>MySQL, SQLite</li>
-                    <li>Git, GitHub</li>
-                    <li>Web Hosting (cPanel, Netlify)</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
+     <footer>
+  <small>Built with vanilla HTML, CSS, and JS.</small>
+  <br>
+  <small style="font-weight:600; color:#ff4d6d;">
+    Made with 😂❤️ & a lot of chaos by <span style="font-family: 'Space Grotesk';">ARJHUN_03</span>
+  </small>
+</footer>
 
-<section id="projects">
-    <div class="container">
-        <h2 class="text-center section-title" data-aos="fade-up" data-aos-duration="1000">Projects</h2>
-        <div class="row g-4">
+    </main>
 
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Code Breaker Game</h5>
-                        <p class="card-text">A JavaScript-based game to guess the last digit of a password in 10 tries.</p>
-                        <a href="https://lnkd.in/grzdKagk" target="_blank" class="btn btn-outline-primary">Play Game</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Cyberpunk Quiz App</h5>
-                        <p class="card-text">An interactive quiz app with neon-styled UI using HTML, CSS, and JS.</p>
-                        <a href="https://lnkd.in/gSKy-td6" target="_blank" class="btn btn-outline-primary">View App</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">E-Commerce Store</h5>
-                        <p class="card-text">Simple full-stack store with product listings, cart, and checkout (HTML + Express.js).</p>
-                        <a href="https://lnkd.in/gm-TEU_H" target="_blank" class="btn btn-outline-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Social Media UI</h5>
-                        <p class="card-text">Frontend for a social platform with clean UI and responsive layout.</p>
-                        <a href="https://lnkd.in/gUeGp39w" target="_blank" class="btn btn-outline-primary">View UI</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">FLAMES ❤️</h5>
-                        <p class="card-text">A JavaScript-based game to DETECT RELATIONSHIP STATUS between two people 😁.</p>
-                        <a href="https://arjhun03.github.io/FLAME/ " target="_blank" class="btn btn-outline-primary">Play Game</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Fraction Order Solver</h5>
-                        <p class="card-text">Math challenge that compares and orders fractions via JS logic.</p>
-                        <a href="https://lnkd.in/gudHPB8Q" target="_blank" class="btn btn-outline-primary">Try It</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Data Management System</h5>
-                        <p class="card-text">Backend data management app using CI4 for CorpIndex. Handles flow, logic, and CRUD.</p>
-                        <a href="https://github.com/arjhun010905/data-management" target="_blank" class="btn btn-outline-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="700">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Tech-Sphaera Club Site</h5>
-                        <p class="card-text">CI4-based dynamic site that stores event suggestions from members in DB.</p>
-                        <a href="https://github.com/arjhun010905/tech-sphaera" target="_blank" class="btn btn-outline-primary">View Site</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<section id="education">
-    <div class="container" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="text-center section-title">Education</h2>
-        <div class="text-center">
-            <p class="lead">B.E. Computer Science and Engineering</p>
-            <p class="mb-1">PSNA College of Engineering and Technology</p>
-            <p>2023 - 2027</p>
-        </div>
-    </div>
-</section>
-
-<section id="experience">
-    <div class="container" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="text-center section-title">Experience</h2>
-        <div class="text-center">
-            <p class="lead">PHP Developer Intern at CorpIndex</p>
-            <p class="mb-1">2024–2025</p>
-            <p>Learned PHP basics, databases, hosting, CI4, Laravel, and Bootstrap during an offline internship.</p>
-        </div>
-    </div>
-</section>
-
-<section id="contact">
-    <div class="container" data-aos="fade-up" data-aos-duration="1000">
-        <h2 class="text-center section-title">Contact</h2>
-        <div class="text-center">
-            <p class="lead">Feel free to reach out!</p>
-            <p>Email: <a href="mailto:arjhun010905@gmail.com">arjhun010905@gmail.com</a></p>
-            <p><a href="https://www.linkedin.com/in/arjhun-o-06ab8b334" target="_blank">LinkedIn Profile</a></p>
-        </div>
-    </div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init({ duration: 1000, once: true });
-</script>
-
-<footer class="text-center py-4" style="background-color: var(--primary-bg); color: var(--text-color);">
-        <div class="container">
-            <div class="social-icons mb-3">
-                </div>
-            <p class="mb-0">&copy; <span id="currentYear"></span> Arjhun O. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <button id="scrollToTopBtn" class="btn btn-outline-primary rounded-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-        </svg>
-    </button>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 1000, once: true });
-
-        // Get the button
-        let mybutton = document.getElementById("scrollToTopBtn");
-
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function() {
-            scrollFunction();
-        };
-
-        function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                mybutton.style.display = "flex"; // Use flex to match CSS
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
-
-        // When the user clicks on the button, scroll to the top of the document
-        mybutton.addEventListener("click", function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // For the current year in the footer (if you added it)
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        // For the contact form validation (if you added it)
-        (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
-</body>
+    <script src="script.js" defer></script>
+  </body>
 </html>
-</body>
-</html>
+
