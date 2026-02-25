@@ -1,60 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FLAMES Matcher</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="app-shell">
-      <header>
-        <h1>FLAMES</h1>
-        <p class="tagline">
-          Classic name game that predicts your relationship vibe.
-        </p>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLAMES Ultra</title>
 
-      <section class="card">
-        <form id="flames-form">
-          <label class="field">
-            <span>First Name</span>
-            <input
-              type="text"
-              id="name-one"
-              name="nameOne"
-              placeholder="e.g. Alex"
-              required
-            />
-          </label>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-          <label class="field">
-            <span>Second Name</span>
-            <input
-              type="text"
-              id="name-two"
-              name="nameTwo"
-              placeholder="e.g. Jamie"
-              required
-            />
-          </label>
+<body>
 
-          <button type="submit">Reveal</button>
-          <button type="button" id="reset-btn" class="ghost">Reset</button>
-        </form>
+<div class="app">
+  <h1>🔥 FLAMES</h1>
+  <p class="tagline">Find your relationship destiny</p>
 
-        <div id="result" class="result" aria-live="polite">
-          Enter two names to see their FLAMES story.
-        </div>
+  <form id="flames-form">
+    <div class="field">
+      <label>First Name</label>
+      <input type="text" id="nameOne" required>
+      <div class="counter" id="countOne">0 characters</div>
+    </div>
 
-        <details class="rules">
+    <div class="field">
+      <label>Second Name</label>
+      <input type="text" id="nameTwo" required>
+      <div class="counter" id="countTwo">0 characters</div>
+    </div>
+
+    <div class="buttons">
+      <button type="submit" class="primary">Reveal</button>
+      <button type="button" class="ghost" id="resetBtn">Reset</button>
+    </div>
+  </form>
+  <details class="rules">
           <summary>How it works</summary>
           <ol>
             <li>Remove all matching letters from both names.</li>
@@ -62,19 +41,16 @@
             <li>Cycle through FLAMES until you land on the result.</li>
           </ol>
         </details>
-      </section>
 
-     <footer>
-  <small>Built with vanilla HTML, CSS, and JS.</small>
-  <br>
-  <small style="font-weight:600; color:#ff4d6d;">
-    Made with 😂❤️ & a lot of chaos by <span style="font-family: 'Space Grotesk';">ARJHUN_03</span>
-  </small>
-</footer>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    Calculating compatibility...
+  </div>
 
-    </main>
+  <div class="flames-letters" id="letters"></div>
+  <div class="result-card" id="resultCard"></div>
+</div>
 
-    <script src="script.js" defer></script>
-  </body>
+<script src="script.js"></script>
+</body>
 </html>
-
