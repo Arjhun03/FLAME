@@ -1,80 +1,133 @@
 const FLAMES = [
-  { code: "F", label: "Friends", blurb: "You share an easy, playful vibe." },
-  { code: "L", label: "Love", blurb: "Chemistry is strong—could be romantic." },
-  { code: "A", label: "Affection", blurb: "Lots of warmth and admiration here." },
-  { code: "M", label: "Marriage", blurb: "Long-term potential with steady trust." },
-  { code: "E", label: "Enemies", blurb: "A fiery mix—maybe keep some distance." },
-  { code: "S", label: "Siblings", blurb: "Feels like family, teasing included." },
+  {code:"F",label:"Friends 🤝",blurb:"Playful bond detected."},
+  {code:"L",label:"Love ❤️",blurb:"Romantic sparks are flying!"},
+  {code:"A",label:"Affection 🥰",blurb:"Soft warmth and admiration."},
+  {code:"M",label:"Marriage 💍",blurb:"Long-term potential strong."},
+  {code:"E",label:"Enemies 😤",blurb:"Too much fire between you!"},
+  {code:"S",label:"Siblings 👯",blurb:"Feels like family vibes."}
 ];
 
-const form = document.querySelector("#flames-form");
-const resultBox = document.querySelector("#result");
-const resetBtn = document.querySelector("#reset-btn");
+const form=document.getElementById("flames-form");
+const resultCard=document.getElementById("resultCard");
+const loading=document.getElementById("loading");
+const lettersDiv=document.getElementById("letters");
+const resetBtn=document.getElementById("resetBtn");
+const nameOne=document.getElementById("nameOne");
+const nameTwo=document.getElementById("nameTwo");
+const countOne=document.getElementById("countOne");
+const countTwo=document.getElementById("countTwo");
 
-const normalize = (value) => value.toLowerCase().replace(/[^a-z]/g, "");
+const normalize=str=>str.toLowerCase().replace(/[^a-z]/g,"");
 
-const countRemainingLetters = (firstName, secondName) => {
-  const first = normalize(firstName).split("");
-  const second = normalize(secondName).split("");
-
-  for (let i = 0; i < first.length; i += 1) {
-    const letter = first[i];
-    const matchIndex = second.indexOf(letter);
-    if (matchIndex !== -1) {
-      first[i] = "";
-      second[matchIndex] = "";
+function countRemainingLetters(a,b){
+  let first=normalize(a).split("");
+  let second=normalize(b).split("");
+  for(let i=0;i<first.length;i++){
+    let idx=second.indexOf(first[i]);
+    if(idx!==-1){
+      first[i]="";
+      second[idx]="";
     }
   }
+  return first.filter(Boolean).length+second.filter(Boolean).length;
+}
 
-  const remainingFirst = first.filter(Boolean).length;
-  const remainingSecond = second.filter(Boolean).length;
-  return remainingFirst + remainingSecond;
-};
+function showFlamesLetters(){
+  lettersDiv.innerHTML="";
+  FLAMES.forEach(f=>{
+    let span=document.createElement("div");
+    span.className="letter";
+    span.textContent=f.code;
+    lettersDiv.appendChild(span);
+  });
+}
 
-const resolveFlames = (count) => {
-  if (count === 0) {
-    return { code: "∞", label: "Twin Flame", blurb: "Perfect sync—no letters left!" };
+async function animateElimination(count){
+  let pool=[...FLAMES];
+  let pointer=0;
+
+  while(pool.length>1){
+    pointer=(pointer+count-1)%pool.length;
+    let index=FLAMES.findIndex(f=>f.code===pool[pointer].code);
+    lettersDiv.children[index].classList.add("strike");
+    await new Promise(r=>setTimeout(r,800));
+    pool.splice(pointer,1);
   }
-
-  const pool = [...FLAMES];
-  let pointer = 0;
-
-  while (pool.length > 1) {
-    pointer = (pointer + count - 1) % pool.length;
-    pool.splice(pointer, 1);
-  }
-
   return pool[0];
-};
+}
 
-const renderResult = ({ code, label, blurb }) => {
-  resultBox.innerHTML = `
-    <div class="label">${code}</div>
-    <div class="value">${label}</div>
-    <p>${blurb}</p>
-  `;
-};
+function typeWriter(text,element,speed=30){
+  element.innerHTML="";
+  let i=0;
+  function type(){
+    if(i<text.length){
+      element.innerHTML+=text[i];
+      i++;
+      setTimeout(type,speed);
+    }
+  }
+  type();
+}
 
-const handleSubmit = (event) => {
-  event.preventDefault();
-  const firstName = event.target.nameOne.value.trim();
-  const secondName = event.target.nameTwo.value.trim();
+function confettiEffect(){
+  for(let i=0;i<20;i++){
+    let conf=document.createElement("div");
+    conf.className="confetti";
+    conf.style.left=Math.random()*100+"vw";
+    conf.textContent="🎉";
+    document.body.appendChild(conf);
+    setTimeout(()=>conf.remove(),3000);
+  }
+}
 
-  if (!firstName || !secondName) {
-    resultBox.textContent = "Please enter both names.";
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+
+  if(!nameOne.value.trim()||!nameTwo.value.trim()){
+    alert("Enter both names!");
     return;
   }
 
-  const remainingLetters = countRemainingLetters(firstName, secondName);
-  const outcome = resolveFlames(remainingLetters);
-  renderResult(outcome);
-};
+  resultCard.classList.remove("show");
+  showFlamesLetters();
+  loading.style.display="block";
 
-const handleReset = () => {
+  const count=countRemainingLetters(nameOne.value,nameTwo.value);
+
+  await new Promise(r=>setTimeout(r,1000));
+
+  const result=await animateElimination(count);
+
+  loading.style.display="none";
+
+  resultCard.innerHTML=`<h2></h2><p></p>`;
+  resultCard.classList.add("show");
+
+  typeWriter(result.label,resultCard.querySelector("h2"),40);
+  typeWriter(result.blurb,resultCard.querySelector("p"),25);
+
+  if(result.label.includes("Love")||result.label.includes("Marriage")){
+    confettiEffect();
+  }
+
+  if(result.label.includes("Enemies")){
+    resultCard.classList.add("shake");
+    setTimeout(()=>resultCard.classList.remove("shake"),500);
+  }
+});
+
+resetBtn.addEventListener("click",()=>{
   form.reset();
-  resultBox.textContent = "Enter two names to see their FLAMES story.";
-};
+  resultCard.classList.remove("show");
+  lettersDiv.innerHTML="";
+  countOne.textContent="0 characters";
+  countTwo.textContent="0 characters";
+});
 
-form.addEventListener("submit", handleSubmit);
-resetBtn.addEventListener("click", handleReset);
+nameOne.addEventListener("input",()=>{
+  countOne.textContent=`${nameOne.value.length} characters`;
+});
 
+nameTwo.addEventListener("input",()=>{
+  countTwo.textContent=`${nameTwo.value.length} characters`;
+});
